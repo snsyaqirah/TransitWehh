@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* TransitWehh brand: primary hsl(213 94% 45%) */
+    --background: 210 20% 98%;
+    --foreground: 213 30% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 213 30% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 213 30% 10%;
+
+    --primary: 213 94% 45%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 15% 92%;
+    --secondary-foreground: 213 30% 15%;
+
+    --muted: 210 15% 94%;
+    --muted-foreground: 213 15% 45%;
+
+    --accent: 213 80% 92%;
+    --accent-foreground: 213 94% 35%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 210 15% 88%;
+    --input: 210 15% 88%;
+    --ring: 213 94% 45%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 213 30% 8%;
+    --foreground: 210 20% 95%;
+
+    --card: 213 25% 12%;
+    --card-foreground: 210 20% 95%;
+
+    --popover: 213 25% 12%;
+    --popover-foreground: 210 20% 95%;
+
+    --primary: 213 90% 58%;
+    --primary-foreground: 213 30% 5%;
+
+    --secondary: 213 20% 20%;
+    --secondary-foreground: 210 20% 90%;
+
+    --muted: 213 20% 18%;
+    --muted-foreground: 213 15% 55%;
+
+    --accent: 213 50% 25%;
+    --accent-foreground: 213 90% 70%;
+
+    --destructive: 0 63% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 213 20% 22%;
+    --input: 213 20% 22%;
+    --ring: 213 90% 58%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    margin: 0;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  #root {
+    min-height: 100vh;
+  }
+}
+
+/* Recharts dark mode */
+.dark .recharts-cartesian-axis-tick-value {
+  fill: hsl(var(--muted-foreground));
+}
+.dark .recharts-cartesian-grid-horizontal line,
+.dark .recharts-cartesian-grid-vertical line {
+  stroke: hsl(var(--border));
+}
+
+/* Skeleton shimmer */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--muted)) 25%,
+    hsl(var(--secondary)) 50%,
+    hsl(var(--muted)) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius);
+}

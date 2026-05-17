@@ -1,0 +1,68 @@
+[
+  {
+    "date": "2020-03-18",
+    "service": "all",
+    "description": "MCO — all public transport restricted to essential workers only",
+    "source": "KKM / JKDM"
+  },
+  {
+    "date": "2021-06-01",
+    "service": "all",
+    "description": "FMCO — full lockdown, public transport severely restricted",
+    "source": "MKN"
+  },
+  {
+    "date": "2022-01-04",
+    "service": "rail_lrt_kj",
+    "description": "LRT Kelana Jaya signal fault — service suspended between Masjid Jamek and Putra for 3 hours",
+    "source": "Prasarana"
+  },
+  {
+    "date": "2022-05-24",
+    "service": "rail_lrt_kj",
+    "description": "LRT Kelana Jaya train collision near KLCC — 47 injured, 6-week partial suspension",
+    "source": "SPAD / Prasarana"
+  },
+  {
+    "date": "2022-12-19",
+    "service": "all",
+    "description": "Klang Valley floods — major disruption across all rail and bus services",
+    "source": "JPS Malaysia"
+  },
+  {
+    "date": "2023-02-15",
+    "service": "rail_monorail",
+    "description": "KL Monorail power failure — full-day suspension",
+    "source": "Prasarana"
+  },
+  {
+    "date": "2023-07-08",
+    "service": "rail_komuter",
+    "description": "KTM Komuter signalling system fault — major delays on Rawang-Seremban corridor",
+    "source": "KTM Berhad"
+  },
+  {
+    "date": "2023-10-04",
+    "service": "rail_lrt_ampang",
+    "description": "LRT Ampang Line track inspection — reduced service for 2 days",
+    "source": "Prasarana"
+  },
+  {
+    "date": "2024-01-13",
+    "service": "bus_rkl",
+    "description": "Rapid KL bus strike action threat — partial service reduction",
+    "source": "NUPW"
+  },
+  {
+    "date": "2024-03-15",
+    "service": "rail_mrt_kajang",
+    "description": "MRT Kajang Line overhead power trip — 90-minute suspension",
+    "source": "Prasarana"
+  },
+  {
+    "date": "2024-09-27",
+    "service": "all",
+    "description": "Selangor flooding event — widespread bus and rail disruptions",
+    "source": "JPS Selangor"
+  }
+]

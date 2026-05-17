@@ -1,0 +1,62 @@
+[
+  {
+    "date": "2020-03-18",
+    "label": "MCO Start",
+    "type": "emergency",
+    "description": "Movement Control Order — public transport severely restricted"
+  },
+  {
+    "date": "2020-06-10",
+    "label": "CMCO",
+    "type": "policy",
+    "description": "Conditional MCO — partial service resumption"
+  },
+  {
+    "date": "2020-09-10",
+    "label": "RMCO",
+    "type": "policy",
+    "description": "Recovery MCO — most services resumed with SOP"
+  },
+  {
+    "date": "2021-06-01",
+    "label": "FMCO",
+    "type": "emergency",
+    "description": "Full MCO — second national lockdown, transport restricted again"
+  },
+  {
+    "date": "2021-10-11",
+    "label": "NRP Phase 4",
+    "type": "policy",
+    "description": "National Recovery Plan Phase 4 — near-full reopening"
+  },
+  {
+    "date": "2022-04-01",
+    "label": "Endemic Phase",
+    "type": "policy",
+    "description": "Malaysia transitions to COVID-19 endemic phase, all SOPs lifted"
+  },
+  {
+    "date": "2023-01-01",
+    "label": "My50 Launch",
+    "type": "policy",
+    "description": "Prasarana My50 monthly unlimited pass launched at RM50/month"
+  },
+  {
+    "date": "2023-03-16",
+    "label": "MRT PJY Opens",
+    "type": "opening",
+    "description": "MRT Putrajaya Line (Phase 1) opens — Kwasa Damansara to Putrajaya Sentral"
+  },
+  {
+    "date": "2023-06-16",
+    "label": "MRT PJY Phase 2",
+    "type": "opening",
+    "description": "MRT Putrajaya Line full opening — Kwasa Damansara to Putrajaya/Cyberjaya"
+  },
+  {
+    "date": "2024-01-01",
+    "label": "My100 Launch",
+    "type": "policy",
+    "description": "My100 monthly pass (all Prasarana + KTMB) launched at RM100/month"
+  }
+]

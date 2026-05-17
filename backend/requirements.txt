@@ -1,0 +1,41 @@
+# Core framework
+fastapi==0.115.5
+uvicorn[standard]==0.32.1
+pydantic==2.10.3
+python-dotenv==1.0.1
+
+# HTTP client (explicit timeouts on all external calls)
+httpx==0.27.2
+
+# Data processing
+pandas==2.2.3
+numpy==1.26.4
+
+# ML / forecasting
+scikit-learn==1.5.2
+statsmodels==0.14.4
+prophet==1.1.6
+
+# Caching
+aiocache==0.12.3
+
+# Rate limiting
+slowapi==0.1.9
+
+# Structured logging
+structlog==24.4.0
+
+# Malaysian + global holidays
+holidays==0.59
+
+# statsmodels pulls in scipy; dateutil used for relativedelta in backtesting
+scipy==1.13.1
+python-dateutil==2.9.0
+
+# Prophet transitive deps (pinned to prevent C++ build breaks)
+pystan==3.9.1
+cmdstanpy==1.2.4
+convertdate==2.4.0
+LunarCalendar==0.0.9
+ephem==4.1.5
+tqdm==4.66.5

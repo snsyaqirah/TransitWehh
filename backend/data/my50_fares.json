@@ -1,0 +1,78 @@
+{
+  "pass": {
+    "name": "My50",
+    "price_myr": 50.0,
+    "valid_days": 30,
+    "description": "Unlimited travel on all Prasarana rail and bus services",
+    "launched": "2023-01-01",
+    "covered_services": [
+      "LRT Kelana Jaya Line",
+      "LRT Ampang / Sri Petaling Line",
+      "MRT Kajang Line",
+      "MRT Putrajaya Line",
+      "KL Monorail",
+      "BRT Sunway",
+      "Rapid KL Bus (Stage Bus)",
+      "Rapid KL Bus (Express)"
+    ],
+    "not_covered": [
+      "KTM Komuter",
+      "KTM ETS",
+      "KTM Intercity",
+      "Rapid Penang",
+      "Rapid Kuantan"
+    ],
+    "source": "Prasarana Malaysia Berhad"
+  },
+  "average_fares": [
+    {
+      "service": "LRT Kelana Jaya",
+      "service_key": "rail_lrt_kj",
+      "min_fare_myr": 1.00,
+      "max_fare_myr": 5.80,
+      "typical_commute_myr": 3.40,
+      "note": "Distance-based; typical commute assumes 8–12 stations"
+    },
+    {
+      "service": "LRT Ampang / Sri Petaling",
+      "service_key": "rail_lrt_ampang",
+      "min_fare_myr": 1.00,
+      "max_fare_myr": 5.80,
+      "typical_commute_myr": 3.10,
+      "note": "Distance-based; typical commute assumes 8–12 stations"
+    },
+    {
+      "service": "MRT Kajang",
+      "service_key": "rail_mrt_kajang",
+      "min_fare_myr": 1.00,
+      "max_fare_myr": 6.60,
+      "typical_commute_myr": 3.80,
+      "note": "Longer line; typical commute assumes Kajang–KLCC segment"
+    },
+    {
+      "service": "MRT Putrajaya",
+      "service_key": "rail_mrt_pjy",
+      "min_fare_myr": 1.00,
+      "max_fare_myr": 6.60,
+      "typical_commute_myr": 3.60,
+      "note": "Typical commute assumes Putrajaya Sentral–Semantan"
+    },
+    {
+      "service": "KL Monorail",
+      "service_key": "rail_monorail",
+      "min_fare_myr": 1.20,
+      "max_fare_myr": 3.60,
+      "typical_commute_myr": 2.30,
+      "note": "Short line; 11 stations"
+    },
+    {
+      "service": "Rapid KL Bus",
+      "service_key": "bus_rkl",
+      "min_fare_myr": 1.00,
+      "max_fare_myr": 3.00,
+      "typical_commute_myr": 1.50,
+      "note": "Flat or zone-based depending on route"
+    }
+  ],
+  "calculator_note": "Break-even calculation assumes you make 2 trips per day (one return commute) on working days only. Actual savings depend on trip frequency and distance. Fares as of 2024."
+}
