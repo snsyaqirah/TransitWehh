@@ -24,21 +24,50 @@ import type { ServiceKey } from '@/types/transport'
 
 const YEAR_COLORS = ['#1a8fe0', '#27ae60', '#9b59b6', '#e67e22', '#e74c3c']
 
+// API returns { doy: number[], years: { "2019": number[], ... }, is_stale }
+// Transform: bucket doy values into 12 months, average per month per year
+function doyToMonthlyAvg(doys: number[], yearData: number[]): Record<number, number> {
+  const buckets: Record<number, number[]> = {}
+  doys.forEach((doy, i) => {
+    const val = yearData[i]
+    if (val == null || isNaN(val)) return
+    // Approximate month from day-of-year
+    const month = Math.min(12, Math.ceil(doy / 30.44))
+    if (!buckets[month]) buckets[month] = []
+    buckets[month].push(val)
+  })
+  const result: Record<number, number> = {}
+  for (const [m, vals] of Object.entries(buckets)) {
+    result[Number(m)] = Math.round(vals.reduce((a, b) => a + b, 0) / vals.length)
+  }
+  return result
+}
+
 function YoyChart({ service }: { service: ServiceKey }) {
   const { data, isLoading } = useYoy(service)
 
   if (isLoading) return <Skeleton className="w-full h-56" />
-  if (!data?.data) return (
+
+  const doys: number[] = data?.doy ?? []
+  const yearsRaw: Record<string, number[]> = data?.years ?? {}
+  const years = Object.keys(yearsRaw).sort()
+
+  if (!data || years.length === 0) return (
     <div className="flex items-center justify-center h-56 text-muted-foreground text-sm">No YoY data</div>
   )
 
-  const years: string[] = data.years ?? []
-  const chartData: Record<string, string | number>[] = data.data
+  // Build array of 12 month objects: [{month:1, "2019": avg, "2020": avg, ...}, ...]
+  const chartData = Array.from({ length: 12 }, (_, i) => {
+    const month = i + 1
+    const entry: Record<string, string | number> = { month: String(month).padStart(2, '0') }
+    for (const yr of years) {
+      const monthly = doyToMonthlyAvg(doys, yearsRaw[yr])
+      entry[yr] = monthly[month] ?? 0
+    }
+    return entry
+  })
 
-  const tickFormatter = (v: string) => {
-    const d = new Date(`2000-${v}`)
-    return d.toLocaleString('en-MY', { month: 'short' })
-  }
+  const MONTH_LABELS_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 
   return (
     <ResponsiveContainer width="100%" height={220}>
@@ -46,7 +75,7 @@ function YoyChart({ service }: { service: ServiceKey }) {
         <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
         <XAxis
           dataKey="month"
-          tickFormatter={tickFormatter}
+          tickFormatter={(v: string) => MONTH_LABELS_SHORT[parseInt(v) - 1]}
           tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }}
           tickLine={false}
           axisLine={false}
@@ -59,8 +88,8 @@ function YoyChart({ service }: { service: ServiceKey }) {
           width={52}
         />
         <Tooltip
-          formatter={(v: number) => formatNumber(v, { compact: true })}
-          labelFormatter={(l: string) => new Date(`2000-${l}`).toLocaleString('en-MY', { month: 'long' })}
+          formatter={(v: number, name: string) => [formatNumber(v, { compact: true }), name]}
+          labelFormatter={(l: string) => MONTH_LABELS_SHORT[parseInt(l) - 1]}
           contentStyle={{
             background: 'hsl(var(--popover))',
             border: '1px solid hsl(var(--border))',
@@ -108,14 +137,21 @@ export function Trends() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Trends</h1>
-        <p className="text-sm text-muted-foreground mt-0.5">Ridership over time with overlays and year comparisons</p>
+        <p className="text-sm text-muted-foreground mt-0.5">
+          How has ridership changed over time? This page lets you compare services side-by-side,
+          separate rail from bus volume, and overlay the same month across different years to spot
+          post-pandemic recovery patterns and seasonal cycles.
+        </p>
       </div>
 
       {/* Main line chart */}
       <Card>
         <CardHeader className="pb-3">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <CardTitle>Daily Ridership by Service</CardTitle>
+            <div>
+              <CardTitle>Daily Ridership by Service</CardTitle>
+              <p className="text-xs text-muted-foreground mt-0.5">Each line is one service. Use preset tabs to reduce clutter. "7d rolling avg" smooths out weekend dips. "Index view" removes scale differences so you can compare growth rates — a service with 500k riders and one with 50k both start at 100.</p>
+            </div>
             <ChartDownloadButton targetRef={mainChartRef} filename="trends-ridership.png" />
           </div>
           <div className="flex flex-wrap items-center gap-3 mt-2">
@@ -172,7 +208,10 @@ export function Trends() {
       <Card>
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
-            <CardTitle>Rail vs Bus Ridership</CardTitle>
+            <div>
+              <CardTitle>Rail vs Bus Ridership</CardTitle>
+              <p className="text-xs text-muted-foreground mt-0.5">Stacked total of all rail services vs all bus services daily. Rail dominates in absolute volume — this chart shows how the two modes move together (or diverge) over time.</p>
+            </div>
             <ChartDownloadButton targetRef={stackedRef} filename="rail-vs-bus.png" />
           </div>
         </CardHeader>
@@ -187,7 +226,10 @@ export function Trends() {
       <Card>
         <CardHeader className="pb-3">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <CardTitle>Year-over-Year Comparison</CardTitle>
+            <div>
+              <CardTitle>Year-over-Year Comparison</CardTitle>
+              <p className="text-xs text-muted-foreground mt-0.5">Monthly averages for each calendar year overlaid on the same Jan–Dec axis. Spot seasonality (Hari Raya dips, school holiday bumps) and see how each year's recovery compares to pre-pandemic levels.</p>
+            </div>
             <div className="flex items-center gap-2">
               <ChartDownloadButton targetRef={yoyRef} filename="yoy-comparison.png" />
               <select

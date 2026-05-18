@@ -7,7 +7,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { QualityStats } from '@/components/explorer/QualityStats'
-import { useCompleteness } from '@/hooks/use-headline'
+import { useHeadline, useCompleteness } from '@/hooks/use-headline'
 import { useInsights } from '@/hooks/use-misc'
 import { useAnomalies, useEventStudy } from '@/hooks/use-analytics'
 import { SERVICE_MAP } from '@/lib/constants'
@@ -30,11 +30,15 @@ export function Insights() {
   const { data: anomalyResp, isLoading: anomalyLoading } = useAnomalies(anomalyService, anomalyMethod)
   const { data: eventResp, isLoading: eventLoading } = useEventStudy(eventService)
   const { data: completenessData, isLoading: completenessLoading } = useCompleteness()
+  const { data: headlineResp } = useHeadline()
 
   const insights = insightsResp?.data ?? []
   const anomalies = anomalyResp?.data ?? []
 
-  const serviceData = anomalies.map(a => ({ date: a.date, value: a.value }))
+  // Full ridership series for the selected service — AnomalyFlag needs this for the background line
+  const serviceData = (headlineResp?.data ?? [])
+    .filter(row => row[anomalyService] != null)
+    .map(row => ({ date: row.date, value: row[anomalyService] as number }))
 
   return (
     <div className="space-y-6">
@@ -42,7 +46,11 @@ export function Insights() {
 
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Insights</h1>
-        <p className="text-sm text-muted-foreground mt-0.5">Automated analysis, anomalies, and event impact studies</p>
+        <p className="text-sm text-muted-foreground mt-0.5">
+          What's unusual? What changed, and when? This page surfaces statistical anomalies in the ridership
+          data, tests whether specific events (like a new service opening) actually shifted ridership,
+          and shows data coverage so you know where gaps exist.
+        </p>
       </div>
 
       {/* Insight cards grid */}
@@ -71,7 +79,7 @@ export function Insights() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <CardTitle>Anomaly Detection</CardTitle>
-              <p className="text-xs text-muted-foreground mt-0.5">Statistical outliers flagged in ridership data</p>
+              <p className="text-xs text-muted-foreground mt-0.5">Red dots mark days where ridership fell outside the expected range. IQR (Tukey fences) flags values beyond Q1 − 1.5×IQR or Q3 + 1.5×IQR. Z-score flags values more than 2.5 standard deviations from the mean. Hover a red dot to see if there's a known incident.</p>
             </div>
             <div className="flex flex-wrap items-center gap-2">
               {/* Method toggle */}
@@ -130,7 +138,9 @@ export function Insights() {
             <div>
               <CardTitle>Event Impact Study</CardTitle>
               <p className="text-xs text-muted-foreground mt-0.5">
-                Statistical test of ridership change around a service opening or policy event
+                Did ridership actually change after a major event? This uses a Welch t-test to compare
+                the 6 months before vs. 6 months after the event date. The verdict tells you whether
+                the difference is statistically significant or could be explained by normal variation.
               </p>
             </div>
             <select
@@ -151,7 +161,8 @@ export function Insights() {
 
       {/* Data quality */}
       <section>
-        <h2 className="text-base font-semibold mb-3">Data Coverage</h2>
+        <h2 className="text-base font-semibold mb-1">Data Coverage</h2>
+        <p className="text-xs text-muted-foreground mb-3">How complete is the dataset for each service? Gaps appear as missing rows — some services have nulls for days before they launched, others have occasional reporting outages. This helps you know which services are reliable enough to use in analysis.</p>
         <QualityStats data={completenessData?.data} loading={completenessLoading} />
       </section>
     </div>

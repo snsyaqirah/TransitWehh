@@ -46,7 +46,7 @@ export function RainCorrelationChart({ result, loading = false }: RainCorrelatio
     return <Skeleton className="w-full h-72" />
   }
 
-  if (!result || result.data.length === 0) {
+  if (!result || !result.data || result.data.length === 0) {
     return (
       <div className="flex items-center justify-center h-72 text-muted-foreground text-sm">
         No rain correlation data available

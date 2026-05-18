@@ -172,10 +172,8 @@ export function DataTable({ data, loading = false }: DataTableProps) {
               <ChevronLeft size={14} />
             </Button>
             {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-              const pageIdx = Math.min(
-                Math.max(page - 2 + i, 0),
-                Math.max(totalPages - 5, 0) + i
-              )
+              const windowStart = Math.max(0, Math.min(page - 2, totalPages - 5))
+              const pageIdx = windowStart + i
               return (
                 <button
                   key={pageIdx}

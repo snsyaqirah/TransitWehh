@@ -38,7 +38,11 @@ export function Predictions() {
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Predictions</h1>
-          <p className="text-sm text-muted-foreground mt-0.5">Prophet-based ridership forecasting and time-series decomposition</p>
+          <p className="text-sm text-muted-foreground mt-0.5">
+            Ridership forecasts using Facebook Prophet — a model that handles weekly seasonality,
+            Malaysian public holidays, and long-term trends. Trained on data from mid-2022 onwards
+            to avoid COVID-era distortions. The shaded band shows the 95% confidence interval.
+          </p>
         </div>
         <ModelHealthBadge result={backtestResult} loading={backtestLoading} />
       </div>
@@ -126,6 +130,7 @@ export function Predictions() {
       <Card>
         <CardHeader className="pb-3">
           <CardTitle>Backtest Windows</CardTitle>
+          <p className="text-xs text-muted-foreground mt-0.5">Walk-forward validation: the model is trained up to each window end date, then tested on the next 30 days. Lower MAPE = more accurate. Green &lt;10%, yellow 10–20%, red &gt;20%. MAPE is floored at 1,000 boardings to avoid inflated errors on public holidays.</p>
         </CardHeader>
         <CardContent>
           {backtestLoading ? (
@@ -190,7 +195,7 @@ export function Predictions() {
         <CardHeader className="pb-3">
           <CardTitle>Time-Series Decomposition</CardTitle>
           <p className="text-xs text-muted-foreground mt-0.5">
-            Observed, trend, seasonal, and residual components
+            STL (Seasonal-Trend decomposition using Loess) separates the ridership signal into four components: the raw data, the long-term trend (is it growing or declining?), the repeating weekly/annual cycle, and the residual (unexplained noise). Use the trend pane to cut through day-to-day noise.
           </p>
         </CardHeader>
         <CardContent>
@@ -203,7 +208,7 @@ export function Predictions() {
         <CardHeader className="pb-3">
           <CardTitle>Rain Correlation</CardTitle>
           <p className="text-xs text-muted-foreground mt-0.5">
-            Relationship between daily precipitation and ridership
+            Does rain affect how many people take public transport? Blue bars show daily precipitation (mm). The red line is ridership. Pearson r measures their linear relationship: strong means rain reliably moves ridership, weak means other factors dominate. Days with &gt;10mm are classified as "rainy days" for the forecast model.
           </p>
         </CardHeader>
         <CardContent>

@@ -131,7 +131,11 @@ export function Compare() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Compare</h1>
-        <p className="text-sm text-muted-foreground mt-0.5">Service comparisons, patterns, and My50 pass analysis</p>
+        <p className="text-sm text-muted-foreground mt-0.5">
+          Side-by-side comparison tools. Use the weekday/weekend filter to separate commuter traffic from
+          leisure travel — the pattern difference reveals how each service is really being used.
+          The My50 calculator below estimates if an unlimited monthly pass saves you money.
+        </p>
       </div>
 
       {/* Day filter */}
@@ -156,8 +160,9 @@ export function Compare() {
           <div className="flex items-center justify-between">
             <div>
               <CardTitle>Monthly Ridership (Top 4 Services)</CardTitle>
-              <p className="text-xs text-muted-foreground mt-0.5 capitalize">
-                {dayFilter === 'all' ? 'All days' : dayFilter === 'weekday' ? 'Weekdays only' : 'Weekends only'}
+              <p className="text-xs text-muted-foreground mt-0.5">
+                {dayFilter === 'all' ? 'All days · ' : dayFilter === 'weekday' ? 'Weekdays only · ' : 'Weekends only · '}
+                Grouped bars let you compare absolute ridership across the top 4 services month by month. Switch to weekdays to see the commuter picture; weekends shows leisure and recreational travel.
               </p>
             </div>
             <ChartDownloadButton targetRef={barRef} filename="monthly-comparison.png" />
@@ -178,7 +183,10 @@ export function Compare() {
       <Card>
         <CardHeader className="pb-3">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <CardTitle>DOW × Month Ridership Heatmap</CardTitle>
+            <div>
+              <CardTitle>DOW × Month Ridership Heatmap</CardTitle>
+              <p className="text-xs text-muted-foreground mt-0.5">Average daily ridership by day of week (rows) and calendar month (columns). Darker = more riders. Saturday and Sunday patterns show which services have strong weekend demand vs. being purely commuter-driven.</p>
+            </div>
             <div className="flex items-center gap-2">
               <ChartDownloadButton targetRef={heatmapRef} filename="heatmap.png" />
               <select
@@ -203,9 +211,6 @@ export function Compare() {
               <div className="flex items-center justify-center h-48 text-muted-foreground text-sm">No data</div>
             )}
           </div>
-          <p className="text-xs text-muted-foreground mt-2">
-            Average daily ridership by day of week (rows) and calendar month (columns). Darker = higher.
-          </p>
         </CardContent>
       </Card>
 

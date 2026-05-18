@@ -60,7 +60,10 @@ export function Overview() {
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">TransitWehh</h1>
-          <p className="text-sm text-muted-foreground mt-0.5">Malaysian Public Transport Dashboard</p>
+          <p className="text-sm text-muted-foreground mt-0.5">
+            Daily ridership data for Malaysia's public transport network — MRT, LRT, KTM, Monorail,
+            and Rapid bus services. Data sourced from the official open data portal at <span className="font-medium">data.gov.my</span>.
+          </p>
         </div>
         <NowcastBadge service="rail_mrt_kajang" />
       </div>
@@ -83,7 +86,10 @@ export function Overview() {
       <Card>
         <CardHeader className="pb-3">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <CardTitle>Daily Ridership</CardTitle>
+            <div>
+              <CardTitle>Daily Ridership</CardTitle>
+              <p className="text-xs text-muted-foreground mt-0.5">Each data point is one day's total boardings for that service. Vertical markers show key events — MCO start, fare changes, new service openings.</p>
+            </div>
             <div className="flex items-center gap-2">
               <ChartDownloadButton targetRef={chartRef} filename="transitwehh-ridership.png" />
               <Tabs value={activeTab} onValueChange={setActiveTab}>
@@ -112,7 +118,8 @@ export function Overview() {
 
       {/* Service cards grid */}
       <div>
-        <h2 className="text-base font-semibold mb-3">All Services</h2>
+        <h2 className="text-base font-semibold mb-1">All Services</h2>
+        <p className="text-xs text-muted-foreground mb-3">Latest available ridership per service. The sparkline shows the past 30 days — a quick pulse check on each line.</p>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
           {SERVICE_META.map(svc => (
             <ServiceCard
